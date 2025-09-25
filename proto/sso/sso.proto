@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = ".;ssov1";
+
+service Auth {
+  rpc Register (RegisterResponse) returns (RegisterRequest);
+  rpc Login (LoginResponse) returns (LoginRequest);
+  rpc IsAdmin (AdminResponse) returns (AdminRequest);
+}
+
+message RegisterResponse {
+  string email = 1;
+  string password = 2;
+}
+
+message RegisterRequest {
+  int64 user_id = 1;
+}
+
+message LoginResponse {
+  string email = 1;
+  string password = 2;
+  int32 app_id = 3;
+}
+
+message LoginRequest {
+  string token = 1;
+}
+
+message AdminResponse {
+  int64 user_id = 1;
+}
+
+message AdminRequest {
+  bool is_admin = 1;
+}
