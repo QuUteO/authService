@@ -1,4 +1,4 @@
-module protoc
+module github.com/QuUteO/protoc
 
 go 1.24.4
 
