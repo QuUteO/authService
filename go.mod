@@ -1,4 +1,4 @@
-module github.com/QuUteO/protoc
+module Auth
 
 go 1.24.4
 
