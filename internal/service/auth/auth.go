@@ -8,7 +8,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"log/slog"
 	"strconv"
 	"time"
@@ -27,7 +26,7 @@ type UserSaver interface {
 	UserSave(
 		ctx context.Context,
 		email string,
-		PassHash []byte,
+		passHash []byte,
 	) (uid int64, err error)
 }
 
