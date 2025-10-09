@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"log/slog"
 	"strconv"
 	"time"
@@ -62,14 +63,14 @@ func New(
 	}
 }
 
-func (a *Auth) Login(ctx context.Context, email string, password string, appID int64) (string, error) {
+func (a *Auth) Login(ctx context.Context, email string, password string, appID int32) (string, error) {
 
 	const op = "Auth.service.auth.Login"
 
 	log := a.log.With(
 		slog.String("operation", op),
 		slog.String("email", email),
-		slog.String("appID", strconv.FormatInt(appID, 10)),
+		slog.String("appID", strconv.FormatInt(int64(appID), 10)),
 	)
 
 	log.Info("logging in")
@@ -92,7 +93,7 @@ func (a *Auth) Login(ctx context.Context, email string, password string, appID i
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
 
-	app, err := a.AppProvider.App(ctx, appID)
+	app, err := a.AppProvider.App(ctx, int64(appID))
 	if err != nil {
 		log.Error("app not found", sl.Err(err))
 
@@ -143,12 +144,12 @@ func (a *Auth) Register(ctx context.Context, email string, password string) (int
 	return id, nil
 }
 
-func (a *Auth) IsAdmin(ctx context.Context, UserID string) (bool, error) {
+func (a *Auth) IsAdmin(ctx context.Context, UserID int64) (bool, error) {
 	const op = "service.auth.IsAdmin"
 
 	log := a.log.With(
 		slog.String("operation", op),
-		slog.String("email", UserID),
+		slog.String("email", strconv.FormatInt(UserID, 10)),
 	)
 
 	log.Info("Checking user")
